@@ -14,6 +14,7 @@ jobs:
         with:
           ref: develop # Your branch
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add Upstream Remote
         run: |
@@ -24,5 +25,5 @@ jobs:
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
-          git merge upstream/main-latest --no-edit
-          git push origin develop
+          git merge upstream/main-latest --no-edit || true
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git develop
