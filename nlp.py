@@ -3,9 +3,8 @@ import os
 import re
 
 # Set up Gemini using the google.generativeai SDK
-_API_KEY = os.environ.get('GEMINI_API_KEY')
-if _API_KEY:
-    genai.configure(api_key=_API_KEY)
+_API_KEY = os.environ.get('GEMINI_API_KEY', 'AIzaSyCaJjPyGEM2sv1KCTtSfy1f6vqMLN4XioM')
+genai.configure(api_key=_API_KEY)
 GEMINI_MODEL = 'gemini-1.5-flash'
 
 
