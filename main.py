@@ -180,7 +180,7 @@ def serve_university_bg():
 
 @app.get("/login")
 def login_page(request: Request):
-    return templates.TemplateResponse(request, "login_embedded.html")
+    return templates.TemplateResponse(request, "login.html")
 
 @app.get("/chat")
 def chat_page(request: Request):
