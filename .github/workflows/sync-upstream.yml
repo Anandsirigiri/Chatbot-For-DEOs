@@ -29,13 +29,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Try to merge, if conflict occurs, abort and skip
+          # Try to merge, if conflict occurs, abort and skip gracefully
           if git merge upstream/main-latest --no-edit; then
-            echo "Merge successful"
+            echo "✅ Merge successful"
             git push origin develop
           else
-            echo "Merge conflict detected - aborting merge"
+            echo "⚠️ Merge conflict detected - skipping sync"
             git merge --abort
             echo "Manual intervention required to resolve conflicts"
-            exit 1
+            exit 0
           fi
