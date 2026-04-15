@@ -50,6 +50,15 @@
             align-items: center;
             gap: 15px;
         }
+        .session-timer {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ef9a9a;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
         .profile-circle {
             width: 45px;
             height: 45px;
@@ -292,6 +301,7 @@
                 </div>
             </div>
             <div class="profile-section">
+                <div class="session-timer" id="sessionTimer">⏱ 20:00</div>
                 <div class="user-info">
                     <div class="name" id="userName">Loading...</div>
                     <div class="role" id="userRole"></div>
@@ -599,6 +609,35 @@
         }
 
         loadUserInfo();
+
+        // ===== SESSION COUNTDOWN TIMER =====
+        (function() {
+            const TIMEOUT_MS = 20 * 60 * 1000;
+            const timerEl = document.getElementById('sessionTimer');
+            let deadline = Date.now() + TIMEOUT_MS;
+
+            // Fetch initial login_time from server
+            fetch('/api/me').then(r => r.json()).then(data => {
+                if (data.login_time) {
+                    const loginTime = new Date(data.login_time + (data.login_time.includes('Z') ? '' : 'Z')).getTime();
+                    deadline = loginTime + TIMEOUT_MS;
+                }
+            }).catch(() => {});
+
+            setInterval(() => {
+                const remaining = deadline - Date.now();
+                if (remaining <= 0) {
+                    window.location.href = '/logout';
+                    return;
+                }
+                const mins = Math.floor(remaining / 60000);
+                const secs = Math.floor((remaining % 60000) / 1000);
+                if (timerEl) {
+                    timerEl.textContent = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
+                    timerEl.style.color = remaining < 2 * 60 * 1000 ? '#ff5252' : '#ef9a9a';
+                }
+            }, 1000);
+        })();
     </script>
 </body>
 </html>

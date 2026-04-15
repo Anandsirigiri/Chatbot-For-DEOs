@@ -344,8 +344,15 @@ body.dark-mode :root {
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
-.form-group input::placeholder {
-  color: var(--text-muted);
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: #888888;
+  opacity: 0.8;
+}
+
+.form-group input:focus::placeholder,
+.form-group select:focus::placeholder {
+  color: #999999;
 }
 
 .otp-subhint {
@@ -875,7 +882,8 @@ body.dark-mode :root {
 }
 
 .input-row input::placeholder {
-  color: var(--text-muted);
+  color: #888888;
+  opacity: 0.8;
 }
 
 .input-row button {
